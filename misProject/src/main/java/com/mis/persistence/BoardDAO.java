@@ -22,5 +22,9 @@ public interface BoardDAO {
 	
 	public int listCountCriteria(Criteria cri) throws Exception;
 	
+	// 검색 기능 추가
+	public List<BoardVO> listSearchCriteria(Criteria cri) throws Exception;
+	
+	public int listSearchCountCriteria(Criteria cri) throws Exception;
 
 }

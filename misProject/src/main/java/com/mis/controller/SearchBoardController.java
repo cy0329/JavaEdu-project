@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mis.domain.BoardVO;
-import com.mis.domain.Criteria;
 import com.mis.domain.PageMaker;
+import com.mis.domain.SearchCriteria;
 import com.mis.service.BoardService;
 
 @Controller
-@RequestMapping("/board/*")
-public class BoardController {
+@RequestMapping("/sboard/*")
+public class SearchBoardController {
 	
 	@Inject
 	private BoardService service;
@@ -33,12 +33,12 @@ public class BoardController {
 		service.register(vo);
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		
-		return "redirect:/board/listAll";
+		return "redirect:/sboard/list";
 		
 	}
 	
 	
-	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@RequestMapping(value="/listAll", method=RequestMethod.GET)
 	public void listAll(Model model) throws Exception {
 		
 		model.addAttribute("list", service.listAll());
@@ -52,52 +52,32 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping(value="/remove", method=RequestMethod.POST)
-	public String remove(@RequestParam("bno") int bno, RedirectAttributes rttr) throws Exception {
+	@RequestMapping(value="/removePage", method=RequestMethod.POST)
+	public String removePage(@RequestParam("bno") int bno, @ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr) throws Exception {
 		
 		service.remove(bno);
 		
 		rttr.addFlashAttribute("msg", "SUCCESS");
+		rttr.addAttribute("page", cri.getPage());
+		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		
-		return "redirect:/board/listAll";
-		
-	}
-	
-	@RequestMapping(value="/modify", method=RequestMethod.GET)
-	public void modifyGET(@RequestParam("bno") int bno, Model model) throws Exception {
-		
-		model.addAttribute(service.read(bno));
+		return "redirect:/sboard/list";
 		
 	}
+
 	
-	@RequestMapping(value="/modify", method=RequestMethod.POST)
-	public String modifyPOST(BoardVO vo, RedirectAttributes rttr) throws Exception {
-		
-		service.modify(vo);
-		
-		rttr.addFlashAttribute("msg", "SUCCESS");
-		
-		return "redirect:/board/listAll";
-		
-	}
-	
-	@RequestMapping(value="/listCri", method=RequestMethod.GET)
-	public void listCri(Criteria cri, Model model) throws Exception {
-		// 페이징 네비게시연이 없음
-		model.addAttribute("list", service.listCriteria(cri));
-		
-	}
-	
-	@RequestMapping(value="/listPage", method=RequestMethod.GET)
-	public void listPage(@ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 		
 		// 선택된 페이지의 게시글 정보 가져오기(10개)
-		model.addAttribute("list", service.listCriteria(cri));
+		model.addAttribute("list", service.listSearch(cri));
 		
 		// 페이징 네비게이션 추가
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(service.listCountCriteria(cri));
+		pageMaker.setTotalCount(service.listSearchCount(cri));
 		
 		// 페이지 정보 화면 전달
 		model.addAttribute("pageMaker", pageMaker);
@@ -106,32 +86,34 @@ public class BoardController {
 	
 	// 페이징에서의 디테일 페이지
 	@RequestMapping(value="/readPage", method=RequestMethod.GET)
-	public void readPage(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+	public void readPage(@RequestParam("bno") int bno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 		
 		model.addAttribute(service.read(bno));
 		
 	}
 	
 	@RequestMapping(value="/modifyPage", method=RequestMethod.GET)
-	public void modifyPageGET(@RequestParam("bno") int bno, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
+	public void modifyPageGET(@RequestParam("bno") int bno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 		
 		model.addAttribute(service.read(bno));
 		
 	}
 	
 	@RequestMapping(value="/modifyPage", method=RequestMethod.POST)
-	public String modifyPagePOST(BoardVO vo, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) throws Exception {
+	public String modifyPagePOST(BoardVO vo, @ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr) throws Exception {
 		
 		service.modify(vo);
 		
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
+		rttr.addAttribute("searchType", cri.getSearchType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		rttr.addFlashAttribute("msg", "SUCCESS");
 		
-		return "redirect:/board/listPage";
+		return "redirect:/sboard/list";
 		
 	}
 	
-
+	
 }

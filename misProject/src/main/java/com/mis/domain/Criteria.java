@@ -61,12 +61,14 @@ public class Criteria {
 		return this.startPage;
 		
 	}
-
+	
+	
 	@Override
 	public String toString() {
 		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", startPage=" + startPage + "]";
 	}
-	
+
+
 	
 	
 
