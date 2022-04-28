@@ -80,7 +80,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/listCri", method=RequestMethod.GET)
-	public void listCriteria(Criteria cri, @RequestParam("page") int page, Model model) throws Exception {
+	public void listCri(Criteria cri, Model model) throws Exception {
 		
 		model.addAttribute("list", service.listCriteria(cri));
 		

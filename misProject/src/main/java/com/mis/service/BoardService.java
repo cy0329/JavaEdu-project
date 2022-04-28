@@ -13,6 +13,7 @@ public interface BoardService {
 	public void remove(int bno) throws Exception;
 	public List<BoardVO> listAll() throws Exception;
 	
+	// 페이징 기능 추가
 	public List<BoardVO> listCriteria(Criteria cri) throws Exception;
 	public int listCountCriteria(Criteria cri) throws Exception;
 
