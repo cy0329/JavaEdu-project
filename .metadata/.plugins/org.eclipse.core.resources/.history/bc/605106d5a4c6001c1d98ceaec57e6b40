@@ -53,7 +53,7 @@
     		SELECT ROWNUM RNUM, BNO, TITLE, CONTENT, WRITER, REGDATE, VIEWCNT
     		FROM (SELECT * FROM TBL_BOARD ORDER BY BNO DESC)
     		)
-    	WHERE (RNUM >= #{pageStart} AND RNUM <= #{pageEnd} )
+    	WHERE (RNUM >= (#{page} * 10 - 9) AND RNUM <= (#{page} * 10) )
     	ORDER BY BNO DESC, REGDATE DESC
 	]]>
 	</select>
