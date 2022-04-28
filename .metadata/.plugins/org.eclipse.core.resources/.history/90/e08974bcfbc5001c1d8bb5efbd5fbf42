@@ -1,0 +1,20 @@
+package com.mis.domain;
+
+public class Criteria {
+	
+	private int page; // 시작할 펭치지
+	private int perPageNum; // 화면에 보여줄 게시글 수
+	
+	private int startPage; // MyBatis에서 사용할 시작 페이지 정보
+	
+	// 초기 데이터를 위한 생성자
+	public Criteria() {
+		
+		this.page = 1;
+		this.perPageNum = 10;
+		
+	}
+	
+	
+
+}

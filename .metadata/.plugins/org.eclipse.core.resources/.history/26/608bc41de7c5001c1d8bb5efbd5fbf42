@@ -1,0 +1,74 @@
+package com.mis.test;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.mis.domain.BoardVO;
+import com.mis.persistence.BoardDAO;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/**/root-context.xml" })
+public class BoardDAOTest {
+	
+	@Inject
+	private BoardDAO dao;
+	
+//	@Test
+//	public void createTest() throws Exception {
+//		
+//		BoardVO vo = new BoardVO();
+//		vo.setBno(0); // sequence(SEQ_BOARD.NEXTVAL)로 자동으로 지정되므로 실제 사용할 필요 없음
+//		vo.setTitle("테스트 입니다.");
+//		vo.setContent("테스트 Content");
+//		vo.setWriter("최열");
+//		
+//		dao.create(vo);
+//		
+//	}
+	
+	@Test
+	public void readTest() throws Exception {
+		
+		BoardVO vo = dao.read(1);
+		System.out.println(vo);
+		
+	}
+	
+	@Test
+	public void listAllTest() throws Exception {
+		
+		List<BoardVO> list = dao.listAll();
+		
+		for (BoardVO vo : list ) {
+			System.out.println(vo);
+		}
+		
+	}
+	
+	@Test
+	public void updateTest() throws Exception {
+		/*BoardVO vo = new BoardVO();
+		vo.setBno(1);
+		vo.setTitle("수정하는 타이틀");
+		vo.setContent("수정하는 내용");
+		vo.setWriter("수정");*/
+		
+		BoardVO vo = dao.read(1);
+		vo.setTitle("update 테스트 제목");
+		vo.setContent("update 테스트입니다.");
+		
+		dao.update(vo);
+	}
+	
+//	@Test
+//	public void deleteTest() throws Exception {
+//		dao.delete(2);
+//	}
+
+}

@@ -1,0 +1,5 @@
+package com.mis.service;
+
+public interface BoardService {
+
+}

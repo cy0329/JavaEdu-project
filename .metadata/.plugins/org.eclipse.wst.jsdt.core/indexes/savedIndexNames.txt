@@ -1,0 +1,9 @@
+INDEX VERSION 1.4+C:\mis2022\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1110094348.index
+1542801440.index
+1600539575.index
+485199576.index
+2589896813.index
+1129643750.index
+3224018109.index
+2454185551.index

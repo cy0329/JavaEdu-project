@@ -1,0 +1,5 @@
+package com.mis.persistence;
+
+public class MemberDAOImpl {
+
+}
