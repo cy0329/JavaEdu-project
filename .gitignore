@@ -2,4 +2,4 @@
 .recommenders
 .RemoteSystemsTempFiles
 Servers
-*/target*
+misproject/target
