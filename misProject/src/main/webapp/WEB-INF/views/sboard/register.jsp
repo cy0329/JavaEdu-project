@@ -27,17 +27,17 @@
 								placeholder="Enter ..."></textarea>
 						</div>
 						
-						<%-- <div class="form-group">
+						 <div class="form-group">
 							<label for="exampleInputEmail1">Writer</label> <input type="text"
 								name="writer" class="form-control" value='${login.usid }'
 								readonly>
-						</div> --%>
+						</div> 
 						
 						
-						 <div class="form-group">
+						 <!-- <div class="form-group">
 							<label for="exampleInputEmail1">Writer</label> <input type="text"
 								name="writer" class="form-control" placeholder="Enter Writer">
-						</div>
+						</div> -->
 						
 						
 					</div>
