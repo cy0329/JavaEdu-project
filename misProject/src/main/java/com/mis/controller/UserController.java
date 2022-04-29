@@ -38,5 +38,22 @@ public class UserController {
 		
 	}
 	
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) throws Exception {
+		
+		Object userVO = session.getAttribute("login");
+		
+		if (userVO != null) {
+			
+			session.removeAttribute("login");
+			session.invalidate();
+			
+		}
+		
+		return "redirect:/";
+		
+	}
+	
 
 }
