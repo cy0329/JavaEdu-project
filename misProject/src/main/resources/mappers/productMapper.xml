@@ -28,32 +28,6 @@
 
 	</delete>
 
-	<select id="listAll" resultType="com.mis.domain.ProductVO">
-		SELECT PNO, PNAME, PRICE, CONTENT, WRITER, REGDATE, VIEWCNT
-		FROM TBL_PRODUCT
-		ORDER BY PNO DESC, REGDATE DESC
-
-	</select>
-
-
-
-	<select id="listCountCriteria" resultType="int">
-		SELECT COUNT(*) FROM
-		TBL_PRODUCT
-
-	</select>
-
-	<select id="listCriteria" resultType="com.mis.domain.ProductVO">
-	<![CDATA[
-		SELECT * FROM (
-    		SELECT ROWNUM RNUM, PNO, PNAME, PRICE, CONTENT, WRITER, REGDATE, VIEWCNT
-    		FROM (SELECT * FROM TBL_PRODUCT ORDER BY PNO DESC)
-    		)
-    	WHERE (RNUM >= #{pageStart} AND RNUM <= #{pageEnd} )
-    	ORDER BY PNO DESC, REGDATE DESC
-	]]>
-	</select>
-
 	<sql id="search">
 		<if test="searchType != null">
 			<if test="searchType == 'n'.toString()">
