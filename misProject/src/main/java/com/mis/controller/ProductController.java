@@ -64,14 +64,23 @@ public class ProductController {
 	public String modifyPageGET(int pno, HttpSession session, @ModelAttribute("cri") SearchCriteria cri, Model model,
 			RedirectAttributes rttr) throws Exception {
 
+		// 1) 로그인 정보 가져오기
 		UserVO user = (UserVO) session.getAttribute("login");
 
+		// 2) 게시글이 작성자 정보와 비교
+		// 2-1) 게시글 정보를 가져오기
 		ProductVO product = service.read(pno);
 
+		// 2-2) 게시글 정보와 작성자 정보 비교
 		if (user.getUsid().equals(product.getWriter())) {
+			
+			// 정보 일치
 			model.addAttribute(product);
 			return "/product/modifyPage";
+			
 		} else {
+			
+			// 정보 불일치
 			rttr.addAttribute("pno", pno);
 			rttr.addAttribute("page", cri.getPage());
 			rttr.addAttribute("perPageNum", cri.getPerPageNum());
