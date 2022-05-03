@@ -27,4 +27,6 @@ public interface BoardDAO {
 	
 	public int listSearchCountCriteria(Criteria cri) throws Exception;
 
+	// 조회수 기능
+	public void updateViewCount(int pno) throws Exception;
 }

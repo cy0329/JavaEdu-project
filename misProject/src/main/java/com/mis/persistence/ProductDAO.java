@@ -6,6 +6,7 @@ import com.mis.domain.ProductVO;
 import com.mis.domain.SearchCriteria;
 
 public interface ProductDAO {
+	
 	public void create(ProductVO vo) throws Exception;
 
 	public ProductVO read(int pno) throws Exception;
@@ -19,7 +20,7 @@ public interface ProductDAO {
 
 	// 페이징, 검색 기능 게시물 수 가져오는 기능
 	public int listSearchCountCriteria(SearchCriteria cri) throws Exception;
-	
+
 	// 조회수 기능
 	public void updateViewCount(int pno) throws Exception;
 }
