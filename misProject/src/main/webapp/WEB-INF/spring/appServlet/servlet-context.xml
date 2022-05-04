@@ -52,6 +52,12 @@
 			<mapping path="/user/register" />
 			<mapping path="/user/modifyPage" />
 			<mapping path="/user/removePage" />
+			<mapping path="/notice/register" />
+			<mapping path="/notice/modifyPage" />
+			<mapping path="/notice/removePage" />
+			<mapping path="/qna/register" />
+			<mapping path="/qna/modifyPage" />
+			<mapping path="/qna/removePage" />
 			<beans:ref bean="AuthInterceptor" />
 		</interceptor>
 	</interceptors>

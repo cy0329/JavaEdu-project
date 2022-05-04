@@ -69,7 +69,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 	@Override
 	public List<NoticeFileVO> fileList(int noticeNo) throws Exception {
 
-		return session.selectList(namespace + "fileList", noticeNo);
+		return session.selectList(namespace + ".fileList", noticeNo);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.mis.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.mis.domain.NoticeVO;
 import com.mis.domain.PageMaker;
+import com.mis.domain.QnAVO;
 import com.mis.domain.SearchCriteria;
-import com.mis.service.NoticeService;
+import com.mis.service.QnAService;
 
 @Controller
-@RequestMapping("/notice/*")
-public class NoticeController {
-	
+@RequestMapping("/qna")
+public class QnAController {
+
 	@Inject
-	private NoticeService service;
+	private QnAService service;
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET() throws Exception {
@@ -28,15 +29,23 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String registerPOST(NoticeVO vo, RedirectAttributes rttr) throws Exception {
+	public String registerPOST(QnAVO vo, RedirectAttributes rttr) throws Exception {
 
 		service.register(vo);
 		rttr.addFlashAttribute("msg", "SUCCESS");
 
-		return "redirect:/notice/list";
+		return "redirect:/qna/list";
 
 	}
-	
+
+	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	public void readPage(Model model, @RequestParam("qnaNo") int qnaNo, @ModelAttribute("cri") SearchCriteria cri)
+			throws Exception {
+
+		model.addAttribute(service.read(qnaNo));
+
+	}
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void listPage(@ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 
@@ -49,63 +58,47 @@ public class NoticeController {
 		model.addAttribute("pageMaker", pageMaker);
 
 	}
-	
-	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public void readPage(Model model, @RequestParam("noticeNo") int noticeNo, @ModelAttribute("cri") SearchCriteria cri)
-			throws Exception {
 
-		// 1) 공지사항 글
-		model.addAttribute(service.read(noticeNo));
-		
-		// 2) 첨부 파일
-		model.addAttribute("noticeFileVO", service.fileList(noticeNo));
-
-	}
-	
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public void modifyGET(Model model, @RequestParam("noticeNo") int noticeNo, @ModelAttribute("cri") SearchCriteria cri)
-			throws Exception {
+	public void modifyPageGET(int qnaNo, @ModelAttribute("cri") SearchCriteria cri, Model model,
+			RedirectAttributes rttr) throws Exception {
 
-		// 1) 공지사항 글
-		model.addAttribute(service.read(noticeNo));
+		model.addAttribute(service.read(qnaNo));
 		
-		// 2) 첨부 파일
-		model.addAttribute("noticeFileVO", service.fileList(noticeNo));
 
 	}
 
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String modifyPOST(NoticeVO vo, @ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr)
+	public String modifyPagePOST(QnAVO vo, @ModelAttribute("cri") SearchCriteria cri, RedirectAttributes rttr)
 			throws Exception {
 
-		// 1) 공지사항 수정 + 첨부파일도 재업로드
 		service.modify(vo);
-		
-		// 2) 페이징 정보 전달
+
 		rttr.addAttribute("page", cri.getPage());
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
 		rttr.addAttribute("searchType", cri.getSearchType());
 		rttr.addAttribute("keyword", cri.getKeyword());
-		
-		rttr.addFlashAttribute("msg", "SUCCESS");
-		
-		return "redirect:/notice/list";
+
+		rttr.addFlashAttribute("msg", "MODIFY");
+
+		return "redirect:/qna/list";
 
 	}
-	
+
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
-	public String removePage(@RequestParam("noticeNo") int noticeNo, @ModelAttribute("cri") SearchCriteria cri,
-			RedirectAttributes rttr) throws Exception {
+	public String removePage(@RequestParam("qnaNo") int qnaNo, HttpSession session,
+			@ModelAttribute("cri") SearchCriteria cri, Model model, RedirectAttributes rttr) throws Exception {
 
-		service.remove(noticeNo);
-
+		service.remove(qnaNo);
+		
 		rttr.addAttribute("perPageNum", cri.getPerPageNum());
 		rttr.addAttribute("searchType", cri.getSearchType());
 		rttr.addAttribute("keyword", cri.getKeyword());
 		
-		rttr.addFlashAttribute("msg", "SUCCESS");
+		rttr.addFlashAttribute("msg", "REMOVE");
 
-		return "redirect:/notice/list";
+		return "redirect:/qna/list";
 
 	}
+
 }

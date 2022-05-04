@@ -22,7 +22,7 @@
 	</select>
 
 	<update id="adUpdate">
-		UPDATE TBL_PRODUCT SET TITLE = #{title}, CONTENT = #{content}
+		UPDATE TBL_NOTICE SET TITLE = #{title}, CONTENT = #{content}
 		WHERE NOTICE_NO = #{noticeNo}
 
 	</update>
